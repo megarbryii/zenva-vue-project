@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Practice</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+    <div id='firstDiv'>
+        <input v-model='number'>
+        <p>Number is: {{ number }}</p>
+        <ul>
+            <li v-for='number_ in numbers'>
+                {{ number_ }}
+            </li>
+        </ul>
+    </div>
+
+    <div id='secondDiv'>
+        <button @click='openCloseDoor'>Open or close door</button>
+        <p v-if='isDoorOpen'>Come in!</p>
+        <p v-else-if='!isDoorOpen'>Stay out!</p>
+    </div>
+
+    <div id="thirdDiv">
+        <ul>
+            <grocery-item 
+                v-for='item in groceryItems'
+                v-bind:groceryitem='item'
+            ></grocery-item>
+        </ul>
+    </div>
+
+    <script>
+        var firstVue = new Vue({
+            el: '#firstDiv',
+            data: {
+                number: 1,
+                numbers: [1, 2, 3]
+            }
+        })
+
+        var secondVue = new Vue({
+            el: '#secondDiv',
+            data: {
+                isDoorOpen: false
+            },
+            methods: {
+                openCloseDoor: function() {
+                    this.isDoorOpen = !this.isDoorOpen
+                }
+            }
+        })
+
+        Vue.component('grocery-item', {
+            props: ['groceryitem'],
+            template: '<li>{{groceryitem.quantity}} - {{ groceryitem.name }}</li>'
+        })
+
+        var thirdVue = new Vue({
+            el: '#thirdDiv',
+            data: {
+                groceryItems: [
+                    {name: 'Bread', quantity: 2},
+                    {name: 'Cheese', quantity: 1},
+                    {name: 'Egggs', quantity: 2},
+                    {name: 'Milk', quantity: 1},
+                ]
+            }
+        })
+
+        //firstVue.number = 5
+        //firstVue.$data = {
+        //    number: 5
+        //}
+
+
+
+        //firstVue.$watch('number', function() {
+        //    alert('Number has changed')
+        //})
+        //firstVue.number = 10
+    </script>
+</body>
+</html>
